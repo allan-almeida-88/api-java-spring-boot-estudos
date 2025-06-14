@@ -1,5 +1,6 @@
 package com.allan.projeto.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class User implements Serializable {
     private String password;
     private String phone;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client_id")
     private List<Order> orders = new ArrayList<>();
 

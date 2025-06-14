@@ -1,11 +1,11 @@
 package com.allan.projeto.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,15 +17,17 @@ public class Order implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client_id;
 
     public Order() {}
 
-    public Order(Long id, Instant moment) {
+    public Order(Long id, Instant moment, User client) {
         this.id = id;
         this.moment = moment;
+        this.client_id = client;
     }
 
     public Long getId() {
