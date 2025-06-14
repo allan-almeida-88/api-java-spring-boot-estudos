@@ -1,5 +1,6 @@
 package com.allan.projeto.models.entities;
 
+import com.allan.projeto.models.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,6 +17,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Instant moment;
+    private Integer order_status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     @ManyToOne
@@ -24,10 +26,11 @@ public class Order implements Serializable {
 
     public Order() {}
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, User client, OrderStatus order_status) {
         this.id = id;
         this.moment = moment;
         this.client_id = client;
+        this.setOrder_status(order_status);
     }
 
     public Long getId() {
@@ -52,6 +55,16 @@ public class Order implements Serializable {
 
     public void setClient_id(User client_id) {
         this.client_id = client_id;
+    }
+
+    public OrderStatus getOrder_status() {
+        return OrderStatus.valueOf(order_status);
+    }
+
+    public void setOrder_status(OrderStatus order_status) {
+        if(order_status != null) {
+            this.order_status = order_status.getCode();
+        }
     }
 
     @Override
